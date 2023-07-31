@@ -36,12 +36,10 @@ def generateRoundKeys(key):
         curretKey = rotated_string
         keyArr[j] =  rotated_string[:-16]
         
-# Two bit strings ener and a number exits
+# Two bit strings and a bit string is returned
 def addRoundKey(state,ki):
-    print(hex(int(keyArr[ki], 2))[2:].zfill(16))
     binaryNumberState = int(state, 2)
     binaryNumberKi = int(keyArr[ki], 2)
-    #print(bin(binaryNumberState ^ binaryNumberKi)[2:].zfill(64))
     return bin(binaryNumberState ^ binaryNumberKi)[2:].zfill(64)
     
 
@@ -59,17 +57,17 @@ def pLayer(state):
     return ''.join(my_stringarr)
 
 def genrateCipherText(plaintext, key):
-    print(keyArr)
+    #print(keyArr)
     currentState = plaintext
     generateRoundKeys(key)
-    print(keyArr)
-    #[0,32)
+    #print(keyArr)
+    #[0,31)
     for i in range(0, 31):
         RoundKeyState = addRoundKey(currentState,i)        
         sBoxLayerState = sBoxLayer(RoundKeyState)        
         pLayerState = pLayer(sBoxLayerState)
         currentState = pLayerState
-        print('Round: ', i, hex(int(currentState, 2))[2:].zfill(16), 'length: ', len(hex(int(currentState, 2))[2:]) )
+        #print('Round: ', i, hex(int(currentState, 2))[2:].zfill(16), 'length: ', len(hex(int(currentState, 2))[2:]) )
     cipherText = addRoundKey(currentState,31)
     return hex(int(cipherText, 2))[2:]
 
